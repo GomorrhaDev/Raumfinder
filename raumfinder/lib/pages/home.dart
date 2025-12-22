@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raumfinder/pages/search.dart';
 
 class RaumfinderHomePage extends StatefulWidget {
   const RaumfinderHomePage({super.key});
@@ -8,20 +9,11 @@ class RaumfinderHomePage extends StatefulWidget {
 }
 
 class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
-  final TextEditingController _searchController = TextEditingController();
-
-  void _performSearch() {
-    final searchTerm = _searchController.text.trim();
-    
-    if (searchTerm.isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Suche nach: $searchTerm')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Filter-Optionen würden hier angezeigt werden')),
-      );
-    }
+  void _navigateToSearch() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SearchScreen()),
+    );
   }
 
   void _showHistory() {
@@ -30,15 +22,6 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
     );
   }
 
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-
-
-  // Hier kommen praktisch die ganzen Widgets/ das aussehen rein
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,62 +85,47 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
                         
                         const SizedBox(height: 60),
                         
-                        // Search Box
-                        Container(
-                          constraints: const BoxConstraints(maxWidth: 380),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
-                                blurRadius: 10,
-                                offset: const Offset(0, 2),
+                        // Search Box (clickable)
+                        GestureDetector(
+                          onTap: _navigateToSearch,
+                          child: Container(
+                            constraints: const BoxConstraints(maxWidth: 380),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: const Color(0xFF333333),
+                                width: 2,
                               ),
-                            ],
-                          ),
-                          child: TextField(
-                            controller: _searchController,
-                            onSubmitted: (_) => _performSearch(),
-                            decoration: InputDecoration(
-                              hintText: '...',
-                              hintStyle: const TextStyle(
-                                color: Color(0xFFB0B0B0),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 16,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF333333),
-                                  width: 2,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 2),
                                 ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF333333),
-                                  width: 2,
+                              ],
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 16,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    '...',
+                                    style: TextStyle(
+                                      color: Colors.grey[400],
+                                      fontSize: 16,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF4A9DB0),
-                                  width: 2,
-                                ),
-                              ),
-                              suffixIcon: IconButton(
-                                icon: const Icon(
+                                const Icon(
                                   Icons.search,
                                   color: Color(0xFF333333),
                                   size: 24,
                                 ),
-                                onPressed: _performSearch,
-                              ),
+                              ],
                             ),
                           ),
                         ),

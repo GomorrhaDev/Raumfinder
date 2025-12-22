@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:raumfinder/homepage.dart';
+import 'package:raumfinder/pages/home.dart';
 
 void main() {
   runApp(const UzLRaumfinderApp());
