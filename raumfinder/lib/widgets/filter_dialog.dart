@@ -31,6 +31,16 @@ class _FilterDialogState extends State<FilterDialog> {
     'Tafel',
   ];
 
+  final List<String> _accessibility = [
+    'Kriterien auswählen',
+    'Aufzug',
+    'Automatische Türen',
+    'Rollstuhlgerechte Tisch- und Platzanordnung',
+    'Barrierefreier Zugang',
+    'Partär',
+    'Inklusive Beschilderung',
+  ];
+
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -75,10 +85,7 @@ class _FilterDialogState extends State<FilterDialog> {
                 children: [
                   const Text(
                     'Frei Am/Um',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   IconButton(
                     icon: const Icon(Icons.close),
@@ -86,9 +93,9 @@ class _FilterDialogState extends State<FilterDialog> {
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Date and Time Picker
               Row(
                 children: [
@@ -101,7 +108,10 @@ class _FilterDialogState extends State<FilterDialog> {
                         style: const TextStyle(fontSize: 13),
                       ),
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
                         side: const BorderSide(color: Color(0xFF333333)),
                       ),
                     ),
@@ -116,16 +126,19 @@ class _FilterDialogState extends State<FilterDialog> {
                         style: const TextStyle(fontSize: 13),
                       ),
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
                         side: const BorderSide(color: Color(0xFF333333)),
                       ),
                     ),
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: 20),
-              
+
               // Building Dropdown
               const Text(
                 'Gebäude',
@@ -136,7 +149,10 @@ class _FilterDialogState extends State<FilterDialog> {
                 value: _selectedBuilding,
                 hint: const Text('Gebäude Auswählen...'),
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: const BorderSide(color: Color(0xFF333333)),
@@ -154,9 +170,9 @@ class _FilterDialogState extends State<FilterDialog> {
                   });
                 },
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Size
               const Text(
                 'Sitze',
@@ -170,7 +186,10 @@ class _FilterDialogState extends State<FilterDialog> {
                       decoration: InputDecoration(
                         hintText: 'Min./Max.',
                         hintStyle: const TextStyle(fontSize: 13),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -185,7 +204,10 @@ class _FilterDialogState extends State<FilterDialog> {
                       decoration: InputDecoration(
                         hintText: '...',
                         hintStyle: const TextStyle(fontSize: 13),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -196,9 +218,9 @@ class _FilterDialogState extends State<FilterDialog> {
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Size (Größe)
               const Text(
                 'Größe',
@@ -212,7 +234,10 @@ class _FilterDialogState extends State<FilterDialog> {
                       decoration: InputDecoration(
                         hintText: 'Min./Max.',
                         hintStyle: const TextStyle(fontSize: 13),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -226,7 +251,10 @@ class _FilterDialogState extends State<FilterDialog> {
                       decoration: InputDecoration(
                         hintText: '...',
                         hintStyle: const TextStyle(fontSize: 13),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -236,9 +264,9 @@ class _FilterDialogState extends State<FilterDialog> {
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Equipment Dropdown
               const Text(
                 'Ausstattung',
@@ -249,7 +277,10 @@ class _FilterDialogState extends State<FilterDialog> {
                 value: _selectedEquipment,
                 hint: const Text('Ausstattung Auswählen'),
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: const BorderSide(color: Color(0xFF333333)),
@@ -267,9 +298,42 @@ class _FilterDialogState extends State<FilterDialog> {
                   });
                 },
               ),
-              
+
               const SizedBox(height: 24),
-              
+
+              // Barrierefreiheit Dropdown
+              const Text(
+                'Barrierefreiheit',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 8),
+              DropdownButtonFormField<String>(
+                value: _selectedEquipment,
+                hint: const Text('Kriterien auswählen'),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: Color(0xFF333333)),
+                  ),
+                ),
+                items: _accessibility.map((equip) {
+                  return DropdownMenuItem(
+                    value: equip,
+                    child: Text(equip, style: const TextStyle(fontSize: 14)),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedEquipment = value;
+                  });
+                },
+              ),
+
+              const SizedBox(height: 24),
               // Apply Button
               SizedBox(
                 width: double.infinity,
