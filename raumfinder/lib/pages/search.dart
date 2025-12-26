@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raumfinder/widgets/filter_dialog.dart';
-
+import 'package:raumfinder/data/room.dart';
+import 'package:raumfinder/data/mock_rooms.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -11,33 +12,33 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final List<String> _rooms = [
-    'H 1',
-    'CS-002',
-    'MFC9 307',
-    'H 1',
-    'CS-502',
-    'MFC8 507',
-    'MFC9 807',
-  ];
 
-  List<String> _filteredRooms = [];
+  late List<Room> _rooms;
+  late List<Room> _filteredRooms;
 
   @override
   void initState() {
     super.initState();
+
+    // 👉 später: API Call
+    _rooms = mockRooms;
     _filteredRooms = _rooms;
+
     _searchController.addListener(_filterRooms);
   }
 
   void _filterRooms() {
+    final query = _searchController.text.toLowerCase();
+
     setState(() {
-      if (_searchController.text.isEmpty) {
+      if (query.isEmpty) {
         _filteredRooms = _rooms;
       } else {
-        _filteredRooms = _rooms
-            .where((room) => room.toLowerCase().contains(_searchController.text.toLowerCase()))
-            .toList();
+        _filteredRooms = _rooms.where((room) {
+          return room.name.toLowerCase().contains(query) ||
+              room.roomNumber.toLowerCase().contains(query) ||
+              room.building.toString().contains(query);
+        }).toList();
       }
     });
   }
@@ -45,9 +46,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void _showFilterDialog() {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return const FilterDialog();
-      },
+      builder: (context) => const FilterDialog(),
     );
   }
 
@@ -79,75 +78,58 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: Column(
         children: [
-          // Search Bar with Filter Button
-          Container(
+          // Search + Filter
+          Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                // Search Field
                 TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    hintText: '...',
-                    hintStyle: const TextStyle(color: Color(0xFFB0B0B0)),
+                    hintText: 'Raum, Gebäude, Nummer …',
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25),
-                      borderSide: const BorderSide(color: Color(0xFF333333)),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: const BorderSide(color: Color(0xFF333333)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: const BorderSide(color: Color(0xFF4A9DB0), width: 2),
-                    ),
-                    suffixIcon: const Icon(Icons.search, color: Color(0xFF333333)),
+                    suffixIcon: const Icon(Icons.search),
                   ),
                 ),
-                
                 const SizedBox(height: 12),
-                
-                // Filter Button
                 OutlinedButton.icon(
                   onPressed: _showFilterDialog,
-                  icon: const Icon(Icons.filter_list, size: 18),
-                  label: const Text('Filter Öffnen'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xFF333333),
-                    side: const BorderSide(color: Color(0xFF333333)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  ),
+                  icon: const Icon(Icons.filter_list),
+                  label: const Text('Filter öffnen'),
                 ),
               ],
             ),
           ),
-          
+
           // Room List
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: _filteredRooms.length,
               itemBuilder: (context, index) {
+                final room = _filteredRooms[index];
+
                 return Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: room.isCurrentlyFree ? Colors.green[100] : Colors.red[100],
                     borderRadius: BorderRadius.circular(25),
-                    border: Border.all(color: const Color(0xFF333333), width: 1.5),
+                    border: Border.all(
+                      color: room.isCurrentlyFree ? Colors.green : Colors.red,
+                      width: 1.5,
+                    ),
                   ),
                   child: ListTile(
+                  leading: Icon(
+                    room.isCurrentlyFree ? Icons.check_circle : Icons.cancel,
+                    color: room.isCurrentlyFree ? Colors.green : Colors.red,
+                  ),
                     title: Text(
-                      _filteredRooms[index],
+                      room.name,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 16,
@@ -156,7 +138,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Raum ${_filteredRooms[index]} ausgewählt')),
+                        SnackBar(content: Text('Raum ${room.name} ausgewählt')),
                       );
                     },
                   ),
