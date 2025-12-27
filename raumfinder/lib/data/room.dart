@@ -4,7 +4,7 @@ import 'package:raumfinder/data/coordinates.dart';
 class Room {
   final String name;
   final Coordinates coordinates;
-  final int building;
+  final String building;
   final String roomNumber;
   final List<String> equipment;
   final int capacity;
