@@ -48,7 +48,6 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
       initialDate: _selectedDate,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now().add(const Duration(days: 365)),
-      locale: const Locale('de', 'DE'),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -80,8 +79,9 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
   }
 
   String _formatWeekday(DateTime date) {
+    // weekday gibt 1-7 zurück, wobei 1 = Montag, 7 = Sonntag
     const weekdays = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-    return weekdays[date.weekday - 1];
+    return weekdays[date.weekday - 1]; // -1 weil Array bei 0 startet
   }
 
   String _formatMonthYear(DateTime date) {
@@ -100,14 +100,15 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
   }
 
   List<DateTime> _getWeekDays() {
-    final startOfWeek = _selectedDate.subtract(Duration(days: _selectedDate.weekday - 1));
+    // Finde den Montag der Woche des ausgewählten Datums
+    final dayOfWeek = _selectedDate.weekday; // 1 = Montag, 7 = Sonntag
+    final startOfWeek = _selectedDate.subtract(Duration(days: dayOfWeek - 1));
     return List.generate(7, (index) => startOfWeek.add(Duration(days: index)));
   }
 
   @override
   Widget build(BuildContext context) {
     final occupations = _getOccupationsForDate(_selectedDate);
-    final weekDays = _getWeekDays();
     
     return Scaffold(
       backgroundColor: Colors.white,
@@ -182,11 +183,7 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
                   icon: const Icon(Icons.chevron_left, color: Color(0xFF2C5F6F)),
                   onPressed: () {
                     setState(() {
-                      _selectedDate = DateTime(
-                        _selectedDate.year,
-                        _selectedDate.month - 1,
-                        _selectedDate.day,
-                      );
+                      _selectedDate = _selectedDate.subtract(const Duration(days: 7));
                     });
                   },
                 ),
@@ -214,11 +211,7 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
                   icon: const Icon(Icons.chevron_right, color: Color(0xFF2C5F6F)),
                   onPressed: () {
                     setState(() {
-                      _selectedDate = DateTime(
-                        _selectedDate.year,
-                        _selectedDate.month + 1,
-                        _selectedDate.day,
-                      );
+                      _selectedDate = _selectedDate.add(const Duration(days: 7));
                     });
                   },
                 ),
@@ -241,7 +234,7 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: weekDays.map((date) {
+              children: _getWeekDays().map((date) {
                 final isSelected = date.day == _selectedDate.day &&
                                  date.month == _selectedDate.month &&
                                  date.year == _selectedDate.year;

@@ -138,7 +138,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
 
             // OpenStreetMap
             Container(
-              height: 200,
+              height: 400,
               margin: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
