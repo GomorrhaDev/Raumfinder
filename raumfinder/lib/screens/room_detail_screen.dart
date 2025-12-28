@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raumfinder/data/room.dart';
+import 'package:raumfinder/screens/occupation_screen.dart';
 import 'package:raumfinder/utils/icon_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
@@ -137,7 +138,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
 
             // OpenStreetMap
             Container(
-              height: 400,
+              height: 200,
               margin: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
@@ -215,9 +216,11 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigation zur Belegungsansicht
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Belegung wird geöffnet...')),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OccupationPlanScreen(room: widget.room),
+                          ),
                         );
                       },
                       style: ElevatedButton.styleFrom(
