@@ -21,7 +21,6 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
 
-    // 👉 später: API Call
     _rooms = mockRooms;
     _filteredRooms = _rooms;
 
@@ -36,9 +35,20 @@ class _SearchScreenState extends State<SearchScreen> {
         _filteredRooms = _rooms;
       } else {
         _filteredRooms = _rooms.where((room) {
-          return room.name.toLowerCase().contains(query) ||
+          // Suche in Rauminformationen
+          final matchesRoomInfo = room.name.toLowerCase().contains(query) ||
               room.roomNumber.toLowerCase().contains(query) ||
               room.building.toString().contains(query);
+
+          // Suche in Veranstaltungsnamen
+          final matchesOccupation = room.bookings.any((booking) =>
+              booking.eventName.toLowerCase().contains(query));
+
+          // Suche in Dozentennamen
+          final matchesInstructor = room.bookings.any((booking) =>
+              booking.instructor.toLowerCase().contains(query));
+
+          return matchesRoomInfo || matchesOccupation || matchesInstructor;
         }).toList();
       }
     });
@@ -49,6 +59,29 @@ class _SearchScreenState extends State<SearchScreen> {
       context: context,
       builder: (context) => const FilterDialog(),
     );
+  }
+
+  String _getMatchInfo(Room room, String query) {
+    if (query.isEmpty) return '';
+    
+    final lowerQuery = query.toLowerCase();
+    
+    // Check für Veranstaltung
+    final matchingEvent = room.bookings.firstWhere(
+      (booking) => booking.eventName.toLowerCase().contains(lowerQuery),
+      orElse: () => room.bookings.firstWhere(
+        (booking) => booking.instructor.toLowerCase().contains(lowerQuery),
+        orElse: () => room.bookings.first,
+      ),
+    );
+    
+    if (room.bookings.any((b) => 
+        b.eventName.toLowerCase().contains(lowerQuery) ||
+        b.instructor.toLowerCase().contains(lowerQuery))) {
+      return matchingEvent.eventName;
+    }
+    
+    return '';
   }
 
   @override
@@ -87,7 +120,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    hintText: 'Raum, Gebäude, Nummer …',
+                    hintText: 'Raum, Gebäude, Veranstaltung, Dozent …',
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -108,48 +141,112 @@ class _SearchScreenState extends State<SearchScreen> {
 
           // Room List
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _filteredRooms.length,
-              itemBuilder: (context, index) {
-                final room = _filteredRooms[index];
+            child: _filteredRooms.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.search_off,
+                          size: 64,
+                          color: Colors.grey[400],
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Keine Räume gefunden',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Versuche einen anderen Suchbegriff',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[500],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: _filteredRooms.length,
+                    itemBuilder: (context, index) {
+                      final room = _filteredRooms[index];
+                      final matchInfo = _getMatchInfo(room, _searchController.text);
 
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: room.isCurrentlyFree ? Colors.green[100] : Colors.red[100],
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(
-                      color: room.isCurrentlyFree ? Colors.green : Colors.red,
-                      width: 1.5,
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: Icon(
-                      room.isCurrentlyFree ? Icons.check_circle : Icons.cancel,
-                      color: room.isCurrentlyFree ? Colors.green : Colors.red,
-                    ),
-                    title: Text(
-                      room.name,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    onTap: () {
-                      // Navigation zur Raumdetailseite
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RoomDetailScreen(room: room),
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        decoration: BoxDecoration(
+                          color: room.isCurrentlyFree
+                              ? Colors.green[100]
+                              : Colors.red[100],
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(
+                            color: room.isCurrentlyFree ? Colors.green : Colors.red,
+                            width: 1.5,
+                          ),
+                        ),
+                        child: ListTile(
+                          leading: Icon(
+                            room.isCurrentlyFree
+                                ? Icons.check_circle
+                                : Icons.cancel,
+                            color: room.isCurrentlyFree ? Colors.green : Colors.red,
+                          ),
+                          title: Text(
+                            room.name,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          subtitle: matchInfo.isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        Icons.event,
+                                        size: 14,
+                                        color: Color(0xFF5EB3C7),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Flexible(
+                                        child: Text(
+                                          matchInfo,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFF2C5F6F),
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : null,
+                          onTap: () {
+                            // Navigation zur Raumdetailseite
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    RoomDetailScreen(room: room),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),
