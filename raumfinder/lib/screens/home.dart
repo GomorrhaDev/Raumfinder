@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:raumfinder/pages/search.dart';
+import 'package:raumfinder/screens/search.dart';
 
 class RaumfinderHomePage extends StatefulWidget {
   const RaumfinderHomePage({super.key});

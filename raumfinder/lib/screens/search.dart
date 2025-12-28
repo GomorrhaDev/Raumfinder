@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:raumfinder/widgets/filter_dialog.dart';
 import 'package:raumfinder/data/room.dart';
 import 'package:raumfinder/data/mock_rooms.dart';
+import 'package:raumfinder/screens/room_detail_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -124,10 +125,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   child: ListTile(
-                  leading: Icon(
-                    room.isCurrentlyFree ? Icons.check_circle : Icons.cancel,
-                    color: room.isCurrentlyFree ? Colors.green : Colors.red,
-                  ),
+                    leading: Icon(
+                      room.isCurrentlyFree ? Icons.check_circle : Icons.cancel,
+                      color: room.isCurrentlyFree ? Colors.green : Colors.red,
+                    ),
                     title: Text(
                       room.name,
                       textAlign: TextAlign.center,
@@ -137,8 +138,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Raum ${room.name} ausgewählt')),
+                      // Navigation zur Raumdetailseite
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RoomDetailScreen(room: room),
+                        ),
                       );
                     },
                   ),
