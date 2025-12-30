@@ -154,7 +154,7 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Gebäude ${widget.room.building} • Raum ${widget.room.roomNumber}',
+                  'Gebäude ${widget.room.building_number} • Raum ${widget.room.roomNumber}',
                   style: const TextStyle(
                     fontSize: 14,
                     color: Color(0xFF5EB3C7),

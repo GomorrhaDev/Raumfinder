@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raumfinder/data/room_filter.dart';
 
 class FilterDialog extends StatefulWidget {
   const FilterDialog({super.key});
@@ -12,15 +13,18 @@ class _FilterDialogState extends State<FilterDialog> {
   String _minSize = '';
   String _maxSize = '';
   String? _selectedEquipment;
+  String? _selectedAccessibility;
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
 
   final List<String> _buildings = [
     'Gebäude Auswählen...',
-    'H Gebäude',
-    'CS Gebäude',
+    'Audimax',
+    'Zentralklinikum'
+    'Turmgebäude',
     'MFC8',
     'MFC9',
+    'Container 3',
   ];
 
   final List<String> _equipment = [
@@ -158,10 +162,10 @@ class _FilterDialogState extends State<FilterDialog> {
                     borderSide: const BorderSide(color: Color(0xFF333333)),
                   ),
                 ),
-                items: _buildings.map((building) {
+                items: _buildings.map((building_name) {
                   return DropdownMenuItem(
-                    value: building,
-                    child: Text(building, style: const TextStyle(fontSize: 14)),
+                    value: building_name, 
+                    child: Text(building_name, style: const TextStyle(fontSize: 14)),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -308,7 +312,7 @@ class _FilterDialogState extends State<FilterDialog> {
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: _selectedEquipment,
+                value: _selectedAccessibility,
                 hint: const Text('Kriterien auswählen'),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
@@ -328,7 +332,7 @@ class _FilterDialogState extends State<FilterDialog> {
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
-                    _selectedEquipment = value;
+                    _selectedAccessibility = value;
                   });
                 },
               ),
@@ -339,11 +343,18 @@ class _FilterDialogState extends State<FilterDialog> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Filter angewendet')),
+                    final filter = RoomFilter(
+                      building: _selectedBuilding,
+                      minSeats: int.tryParse(_minSize),
+                      maxSeats: int.tryParse(_maxSize),
+                      equipment: _selectedEquipment,
+                      accessibility: _selectedAccessibility,
+                      date: _selectedDate,
+                      time: _selectedTime,
                     );
+                    Navigator.pop(context, filter);
                   },
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF4A9DB0),
                     foregroundColor: Colors.white,

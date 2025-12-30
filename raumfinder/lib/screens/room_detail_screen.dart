@@ -126,7 +126,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Gebäude ${widget.room.building}',
+                    'Gebäude ${widget.room.building_number}',
                     style: const TextStyle(
                       fontSize: 14,
                       color: Color(0xFF5EB3C7),

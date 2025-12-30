@@ -5,7 +5,8 @@ import 'package:raumfinder/data/room.dart';
 final List<Room> mockRooms = [
   Room(
     name: "AM 1 - Audimax",
-    building: "65",
+    building_name: "Audimax",
+    building_number: "65",
     capacity: 576,
     roomNumber: "	065 000 00 005.00",
     size: 577,
@@ -60,7 +61,8 @@ final List<Room> mockRooms = [
 
   Room(
     name: "H 1 - Hörsaal 1 Turmgebäude",
-    building: "70",
+    building_name: "Turmgebäude",
+    building_number: "70",
     capacity: 140,
     roomNumber: "070.000.00.008.00",
     size: 142,
@@ -99,7 +101,8 @@ final List<Room> mockRooms = [
 
   Room(
     name: "Z 1/2 - Hörsaal Z 1/2",
-    building: "40",
+    building_name: "Zentralklinikum",
+    building_number: "40",
     capacity: 318,
     coordinates: Coordinates(latitude: 53.835057377669294, longitude: 10.706319640464047),
     size: 360,
@@ -154,10 +157,12 @@ final List<Room> mockRooms = [
       Occupation(date: DateTime(2026, 1, 9, 16, 00), duration: Duration(hours: 1), eventName: "Kreißsaal Abend", instructor: "Brachmann"),
     ]
   ),
+
   Room(
     name: "C3-S01",
     coordinates: Coordinates(latitude: 53.83636577406219, longitude: 10.702687773202845),
-    building: "58.3",
+    building_name: "Container 3",
+    building_number: "58.3",
     roomNumber: "058.300.00.001.00",
     equipment: ["lose Bestuhlung", "Tische", "Tafel", "Beamer", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
     capacity: 30,
@@ -205,13 +210,14 @@ final List<Room> mockRooms = [
 
     ]
   ),
-  
-    Room(
+
+  Room(
     name: "C3-S02",
     coordinates: Coordinates(latitude: 53.83636577406219, longitude: 10.702687773202845),
-    building: "58.3",
+    building_name: "Container 3",
+    building_number: "58.3",
     roomNumber: "058.300.00.006.00",
-    equipment: ["lose Bestuhlung", "Tische", "Tafel", "Beamer", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
+    equipment: ["lose Bestuhlung", "Tische", "Tafel", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
     capacity: 42,
     size: 69,
     bookings: [

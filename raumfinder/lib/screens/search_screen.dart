@@ -3,6 +3,7 @@ import 'package:raumfinder/widgets/filter_dialog.dart';
 import 'package:raumfinder/data/room.dart';
 import 'package:raumfinder/data/mock_rooms.dart';
 import 'package:raumfinder/screens/room_detail_screen.dart';
+import 'package:raumfinder/data/room_filter.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -12,6 +13,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  RoomFilter? _activeFilter;
   final TextEditingController _searchController = TextEditingController();
 
   late List<Room> _rooms;
@@ -31,35 +33,64 @@ class _SearchScreenState extends State<SearchScreen> {
     final query = _searchController.text.toLowerCase();
 
     setState(() {
-      if (query.isEmpty) {
-        _filteredRooms = _rooms;
-      } else {
-        _filteredRooms = _rooms.where((room) {
-          // Suche in Rauminformationen
-          final matchesRoomInfo = room.name.toLowerCase().contains(query) ||
-              room.roomNumber.toLowerCase().contains(query) ||
-              room.building.toString().contains(query);
+      _filteredRooms = _rooms.where((room) {
+        final matchesSearch = query.isEmpty ||
+            room.name.toLowerCase().contains(query) ||
+            room.roomNumber.toLowerCase().contains(query) ||
+            room.building_number.toLowerCase().contains(query) ||
+            room.building_name.toLowerCase().contains(query) ||
+            room.bookings.any((b) =>
+                b.eventName.toLowerCase().contains(query) ||
+                b.instructor.toLowerCase().contains(query));
 
-          // Suche in Veranstaltungsnamen
-          final matchesOccupation = room.bookings.any((booking) =>
-              booking.eventName.toLowerCase().contains(query));
+        if (!matchesSearch) return false;
 
-          // Suche in Dozentennamen
-          final matchesInstructor = room.bookings.any((booking) =>
-              booking.instructor.toLowerCase().contains(query));
+        if (_activeFilter != null) {
+          final f = _activeFilter!;
 
-          return matchesRoomInfo || matchesOccupation || matchesInstructor;
-        }).toList();
-      }
+          if (f.building != null &&
+              f.building != 'Gebäude Auswählen...' &&
+              room.building_name != f.building) {
+            return false;
+          }
+
+          if (f.minSeats != null && room.capacity < f.minSeats!) {
+            return false;
+          }
+
+          if (f.maxSeats != null && room.capacity > f.maxSeats!) {
+            return false;
+          }
+
+          if (f.equipment != null &&
+              !room.equipment.contains(f.equipment)) {
+            return false;
+          }
+        }
+
+        return true;
+      }).toList();
     });
   }
 
-  void _showFilterDialog() {
-    showDialog(
+  void _showFilterDialog() async {
+    final result = await showDialog<RoomFilter>(
       context: context,
       builder: (context) => const FilterDialog(),
     );
+
+    if (result != null) {
+      setState(() {
+        _activeFilter = result;
+        _filterRooms();
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Filter angewendet')),
+      );
+    }
   }
+
 
   String _getMatchInfo(Room room, String query) {
     if (query.isEmpty) return '';
