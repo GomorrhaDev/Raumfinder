@@ -305,8 +305,8 @@ final List<Room> mockRooms = [
   ),
   Room( // C4-S01
     name: "C4-S01",
-    coordinates: Coordinates(latitude: 53.838025, longitude: 10.704336),
-    building_name: "Transitorium",
+    coordinates: Coordinates(latitude: 53.835577, longitude: 10.700727),
+    building_name: "Container 4",
     building_number: "58.4",
     roomNumber: "058.400.00.001.00",
     equipment: ["lose Bestuhlung", "Tafel", "Verdunklungsmöglichkeit", "Beamer", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
