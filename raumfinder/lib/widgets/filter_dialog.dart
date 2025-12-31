@@ -22,6 +22,7 @@ class _FilterDialogState extends State<FilterDialog> {
     'Audimax',
     'Zentralklinikum'
     'Turmgebäude',
+    'Transitorium',
     'MFC8',
     'MFC9',
     'Container 3',

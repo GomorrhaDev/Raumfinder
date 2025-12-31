@@ -3,7 +3,7 @@ import 'package:raumfinder/data/occupation.dart';
 import 'package:raumfinder/data/room.dart';
 
 final List<Room> mockRooms = [
-  Room(
+  Room( // AM 1 - Audimax
     name: "AM 1 - Audimax",
     building_name: "Audimax",
     building_number: "65",
@@ -59,7 +59,7 @@ final List<Room> mockRooms = [
     ]
   ),
 
-  Room(
+  Room( // H 1 - Hörsaal 1 Turmgebäude
     name: "H 1 - Hörsaal 1 Turmgebäude",
     building_name: "Turmgebäude",
     building_number: "70",
@@ -99,7 +99,7 @@ final List<Room> mockRooms = [
     ]
   ),
 
-  Room(
+  Room( // Hörsaal Z 1/2
     name: "Z 1/2 - Hörsaal Z 1/2",
     building_name: "Zentralklinikum",
     building_number: "40",
@@ -158,7 +158,7 @@ final List<Room> mockRooms = [
     ]
   ),
 
-  Room(
+  Room( // C3-S01
     name: "C3-S01",
     coordinates: Coordinates(latitude: 53.83636577406219, longitude: 10.702687773202845),
     building_name: "Container 3",
@@ -211,7 +211,7 @@ final List<Room> mockRooms = [
     ]
   ),
 
-  Room(
+  Room( // C3-S02
     name: "C3-S02",
     coordinates: Coordinates(latitude: 53.83636577406219, longitude: 10.702687773202845),
     building_name: "Container 3",
@@ -259,6 +259,47 @@ final List<Room> mockRooms = [
       Occupation(date: DateTime(2026, 1, 9, 10, 00), duration: Duration(hours: 2), eventName: "Bildregistrierung V", instructor: "Lellmann"),
       Occupation(date: DateTime(2026, 1, 9, 12, 00), duration: Duration(hours: 2), eventName: "Einführung in die Medieninformatik / Übung Gruppe 3", instructor: "Jochems"),
       Occupation(date: DateTime(2026, 1, 9, 16, 00), duration: Duration(hours: 2), eventName: "Seminar Sozialpraktikum", instructor: "N.N."),
+
+    ]
+  ),
+  Room( // T 1 - Hörsaal T 1 
+    name: "T 1 - Hörsaal T 1",
+    coordinates: Coordinates(latitude: 53.838025, longitude: 10.704336),
+    building_name: "Transitorium",
+    building_number: "53",
+    roomNumber: "053.000.00.902.00",
+    equipment: ["feste Bestuhlung", "Sitzreihen ansteigend", "Tafel", "Verdunklungsmöglichkeit", "Beamer", "PC"],
+    capacity: 162,
+    size: 235,
+    bookings: [
+      //Ferien
+      // Montag, 05.01.2026
+      Occupation(date: DateTime(2026, 1, 5, 08, 00), duration: Duration(minutes: 120), eventName: "Physio", instructor: "Oster"),
+      Occupation(date: DateTime(2026, 1, 5, 10, 00), duration: Duration(minutes: 120), eventName: "Seminar zu Promotion und Wissenschaftlichkeit in Studium / Praxis (ProWiSP): Methoden, Skills und Forschungsfelder / Kliniken / Institute (ehem. zentrales Doktorandensesminar)", instructor: "Noftz"),
+      Occupation(date: DateTime(2026, 1, 5, 12, 00), duration: Duration(hours: 2), eventName: "Hauptvorlesung HNO [HM5K08HNO VL]", instructor: "Bruchhage"),
+      Occupation(date: DateTime(2026, 1, 5, 14, 00), duration: Duration(hours: 2), eventName: "MPCKP04 Ü", instructor: "Abbas"),
+      Occupation(date: DateTime(2026, 1, 5, 16, 00), duration: Duration(hours: 2), eventName: "04. Humanmedizin: Querschnittsbereich Infektiologie u. Immunologie [MED5QB04 Infektio S]", instructor: "Rupp"),
+
+      // Dienstag, 06.01.2026
+      Occupation(date: DateTime(2026, 1, 6, 10, 15), duration: Duration(minutes: 105), eventName: "Vorlesung Augenheilkunde", instructor: "Grisanti"),
+      Occupation(date: DateTime(2026, 1, 6, 12, 15), duration: Duration(minutes: 45), eventName: "Dermatologie und Venerologie", instructor: "Terheyden"),
+      Occupation(date: DateTime(2026, 1, 6, 14, 00), duration: Duration(hours: 2), eventName: "Ana1KP09 UE (MLS)", instructor: "Shoppert"),
+      Occupation(date: DateTime(2026, 1, 6, 16, 00), duration: Duration(hours: 2), eventName: "Sicheres SW V", instructor: "Leuker"),
+
+      // Mittwoch, 07.01.2026
+      Occupation(date: DateTime(2026, 1, 7, 10, 00), duration: Duration(minutes: 120), eventName: "01. Humanmedizin Theorie: Medizinische Mikrobiologie, Hygiene und Virologie [MED3EF10 Mikrobio VL]", instructor: "Rupp"),
+      Occupation(date: DateTime(2026, 1, 7, 13, 00), duration: Duration(hours: 1), eventName: "Vorl. Ortho/Rheumat.", instructor: "Russlies"),
+
+      // Donnerstag, 08.01.2026
+      Occupation(date: DateTime(2026, 1, 8, 08, 00), duration: Duration(minutes: 120), eventName: "Mikrobiologie /MZ 3000/ Vorlesung MLS", instructor: "Friedrich"),
+      Occupation(date: DateTime(2026, 1, 8, 10, 00), duration: Duration(hours: 2), eventName: "Theoretische Informatik / CS2000 / Vorlesung", instructor: "Tantau"),
+      Occupation(date: DateTime(2026, 1, 8, 12, 00), duration: Duration(hours: 1), eventName: "DIAGRAD5", instructor: "Barkhausen"),
+      Occupation(date: DateTime(2026, 1, 8, 14, 00), duration: Duration(hours: 2), eventName: "Biologische Psychologie / PY2000-KP07 / Vorlesung", instructor: "Anders"),
+
+      // Freitag, 09.01.2026
+      Occupation(date: DateTime(2026, 1, 9, 10, 00), duration: Duration(hours: 2), eventName: "01. Humanmedizin Theorie: Medizinische Mikrobiologie, Hygiene und Virologie [MED3EF10 Mikrobio VL]", instructor: "Rupp"),
+      Occupation(date: DateTime(2026, 1, 9, 12, 00), duration: Duration(hours: 2), eventName: "Testtheorie / Vorlesung", instructor: "Utesch"),
+      Occupation(date: DateTime(2026, 1, 9, 15, 30), duration: Duration(hours: 2), eventName: "GdS", instructor: "Utesch"),
 
     ]
   ),
