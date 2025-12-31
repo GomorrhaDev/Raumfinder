@@ -303,4 +303,50 @@ final List<Room> mockRooms = [
 
     ]
   ),
+  Room( // C4-S01
+    name: "C4-S01",
+    coordinates: Coordinates(latitude: 53.838025, longitude: 10.704336),
+    building_name: "Transitorium",
+    building_number: "58.4",
+    roomNumber: "058.400.00.001.00",
+    equipment: ["lose Bestuhlung", "Tafel", "Verdunklungsmöglichkeit", "Beamer", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
+    capacity: 64,
+    size: 69,
+    bookings: [
+      //Ferien
+      // Montag, 05.01.2026
+      Occupation(date: DateTime(2026, 1, 5, 08, 00), duration: Duration(minutes: 120), eventName: "Prakt.Sem. BCH I MED", instructor: "Krey"),
+      Occupation(date: DateTime(2026, 1, 5, 10, 00), duration: Duration(minutes: 120), eventName: "GW2000-KP05", instructor: "Hertel"),
+      Occupation(date: DateTime(2026, 1, 5, 13, 00), duration: Duration(minutes: 90), eventName: "Famulaturreifekurs - Neurologie (U-Kurs)", instructor: "Helmchen"),
+      Occupation(date: DateTime(2026, 1, 5, 14, 30), duration: Duration(minutes: 90), eventName: "EinBiophy UE", instructor: "Song"),
+      Occupation(date: DateTime(2026, 1, 5, 16, 00), duration: Duration(hours: 2), eventName: "Raumbelegung Querschnittsbereich Infektiologie/ Immunologie Gruppenarbeit", instructor: "Rupp"),
+
+      // Dienstag, 06.01.2026
+      Occupation(date: DateTime(2026, 1, 6, 09, 00), duration: Duration(hours: 3), eventName: "Dr. Haus - vom Symptom zur Diagnose", instructor: "Kötter"),
+      Occupation(date: DateTime(2026, 1, 6, 12, 00), duration: Duration(hours: 2), eventName: "KogPsy", instructor: "Franke"),
+      Occupation(date: DateTime(2026, 1, 6, 14, 00), duration: Duration(hours: 2), eventName: "NatUI", instructor: "Jetter"),
+      Occupation(date: DateTime(2026, 1, 6, 17, 30), duration: Duration(minutes: 150), eventName: "MBM", instructor: "Faure"),
+
+      // Mittwoch, 07.01.2026
+      Occupation(date: DateTime(2026, 1, 7, 08, 00), duration: Duration(minutes: 120), eventName: "Prakt.Sem. BCH I MED", instructor: "Krey"),
+      Occupation(date: DateTime(2026, 1, 7, 10, 00), duration: Duration(hours: 2), eventName: "ErnMed", instructor: "Sina"),
+      Occupation(date: DateTime(2026, 1, 7, 12, 00), duration: Duration(minutes: 120), eventName: "BacProjRAS", instructor: "Berekovic"),
+      Occupation(date: DateTime(2026, 1, 7, 16, 00), duration: Duration(hours: 1), eventName: "IfG-WS24-TherHaV", instructor: "Baumgärtner"),
+      Occupation(date: DateTime(2026, 1, 7, 18, 00), duration: Duration(minutes: 120), eventName: "Wahlfach (fächerübergreifend): Interdisziplinäre Perspektiven auf Ökologische Nachhaltigkeit / PS1130-KP04", instructor: "Anders"),
+
+      // Donnerstag, 08.01.2026
+      Occupation(date: DateTime(2026, 1, 8, 08, 00), duration: Duration(minutes: 120), eventName: "Medizinische Trainingstherapie / PT2510-KP08 / Übung (Gruppe CD)", instructor: "Frankenstein"),
+      Occupation(date: DateTime(2026, 1, 8, 10, 00), duration: Duration(hours: 3), eventName: "ABWL", instructor: "Scheiner"),
+      Occupation(date: DateTime(2026, 1, 8, 13, 00), duration: Duration(hours: 1), eventName: "Neuropsychologische Diagnostik, Therapie und Begutachtung PY4700-KP05 (Ärztl. Visite)", instructor: "Brüggemann"),
+      Occupation(date: DateTime(2026, 1, 8, 14, 00), duration: Duration(hours: 4), eventName: "EinzelStrT S", instructor: "Hübner"),
+
+      // Freitag, 09.01.2026
+      Occupation(date: DateTime(2026, 1, 9, 10, 00), duration: Duration(hours: 2), eventName: "Dermatologie/ GW2020-KP06/ Vorlesung", instructor: "Schmidt"),
+      Occupation(date: DateTime(2026, 1, 9, 12, 00), duration: Duration(hours: 2), eventName: "Physio", instructor: "Oster"),
+
+      // Samstag, 10.01.2026
+      Occupation(date: DateTime(2026, 1, 10, 10, 00), duration: Duration(hours: 8), eventName: "Wahlfach (fächerübergreifend): Interdisziplinäre Perspektiven auf Ökologische Nachhaltigkeit / PS1130-KP04", instructor: "Anders"),
+
+    ]
+  ),
 ];
