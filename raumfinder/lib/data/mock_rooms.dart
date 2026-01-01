@@ -268,7 +268,7 @@ final List<Room> mockRooms = [
     building_name: "Transitorium",
     building_number: "53",
     roomNumber: "053.000.00.902.00",
-    equipment: ["feste Bestuhlung", "Sitzreihen ansteigend", "Tafel", "Verdunklungsmöglichkeit", "Beamer", "PC"],
+    equipment: ["feste Bestuhlung", "Sitzreihen ansteigend", "Tafel", "Verdunkelungsmöglichkeit", "Beamer", "PC"],
     capacity: 162,
     size: 235,
     bookings: [
@@ -309,7 +309,7 @@ final List<Room> mockRooms = [
     building_name: "Container 4",
     building_number: "58.4",
     roomNumber: "058.400.00.001.00",
-    equipment: ["lose Bestuhlung", "Tafel", "Verdunklungsmöglichkeit", "Beamer", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
+    equipment: ["lose Bestuhlung", "Tafel", "Verdunkelungsmöglichkeit", "Beamer", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
     capacity: 64,
     size: 69,
     bookings: [

@@ -34,6 +34,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
     setState(() {
       _filteredRooms = _rooms.where((room) {
+        // 1. Suchtext-Filter (Name, Gebäude, Dozent, etc.)
         final matchesSearch = query.isEmpty ||
             room.name.toLowerCase().contains(query) ||
             room.roomNumber.toLowerCase().contains(query) ||
@@ -45,26 +46,35 @@ class _SearchScreenState extends State<SearchScreen> {
 
         if (!matchesSearch) return false;
 
+        // 2. Aktive Filter anwenden
         if (_activeFilter != null) {
           final f = _activeFilter!;
 
-          if (f.building != null &&
-              f.building != 'Gebäude Auswählen...' &&
-              room.building_name != f.building) {
+          // Gebäude
+          if (f.building != null && room.building_name != f.building) {
             return false;
           }
 
-          if (f.minSeats != null && room.capacity < f.minSeats!) {
-            return false;
+          // Sitze
+          if (f.minSeats != null && room.capacity < f.minSeats!) return false;
+          if (f.maxSeats != null && room.capacity > f.maxSeats!) return false;
+
+          // Größe (m²)
+          if (f.minSize != null && room.size < f.minSize!) return false;
+          if (f.maxSize != null && room.size > f.maxSize!) return false;
+
+          // Ausstattung (Prüfen, ob ALLE gewählten Items vorhanden sind)
+          if (f.equipment != null && f.equipment!.isNotEmpty) {
+            if (!f.equipment!.every((item) => room.equipment.contains(item))) {
+              return false;
+            }
           }
 
-          if (f.maxSeats != null && room.capacity > f.maxSeats!) {
-            return false;
-          }
-
-          if (f.equipment != null &&
-              !room.equipment.contains(f.equipment)) {
-            return false;
+          // Barrierefreiheit (Ebenfalls gegen room.equipment prüfen)
+          if (f.accessibility != null && f.accessibility!.isNotEmpty) {
+            if (!f.accessibility!.every((item) => room.equipment.contains(item))) {
+              return false;
+            }
           }
         }
 
@@ -76,7 +86,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void _showFilterDialog() async {
     final result = await showDialog<RoomFilter>(
       context: context,
-      builder: (context) => const FilterDialog(),
+      builder: (context) => FilterDialog(initialFilter: _activeFilter),
     );
 
     if (result != null) {

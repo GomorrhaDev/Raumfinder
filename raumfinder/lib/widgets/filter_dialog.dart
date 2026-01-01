@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:raumfinder/data/room_filter.dart';
+import 'package:raumfinder/data/mock_rooms.dart';
 
 class FilterDialog extends StatefulWidget {
-  const FilterDialog({super.key});
+  final RoomFilter? initialFilter;
+
+  const FilterDialog({super.key, this.initialFilter});
 
   @override
   State<FilterDialog> createState() => _FilterDialogState();
@@ -10,41 +13,71 @@ class FilterDialog extends StatefulWidget {
 
 class _FilterDialogState extends State<FilterDialog> {
   String? _selectedBuilding;
-  String _minSize = '';
-  String _maxSize = '';
-  String? _selectedEquipment;
-  String? _selectedAccessibility;
-  DateTime _selectedDate = DateTime.now();
-  TimeOfDay _selectedTime = TimeOfDay.now();
+  
+  // Controller für persistente Textfelder
+  late TextEditingController _minSeatsController;
+  late TextEditingController _maxSeatsController;
+  late TextEditingController _minSizeController;
+  late TextEditingController _maxSizeController;
 
-  final List<String> _buildings = [
-    'Gebäude Auswählen...',
-    'Audimax',
-    'Zentralklinikum'
-    'Turmgebäude',
-    'Transitorium',
-    'MFC8',
-    'MFC9',
-    'Container 3',
-  ];
+  final Set<String> _selectedEquipment = <String>{};
+  final Set<String> _selectedAccessibility = <String>{};
+  
+  late DateTime _selectedDate;
+  late TimeOfDay _selectedTime;
 
-  final List<String> _equipment = [
-    'Ausstattung Auswählen',
-    'Beamer',
-    'Computer',
-    'Whiteboard',
-    'Tafel',
-  ];
+  late List<String> _buildings;
+  late List<String> _equipment;
+  late List<String> _accessibility;
 
-  final List<String> _accessibility = [
-    'Kriterien auswählen',
-    'Aufzug',
-    'Automatische Türen',
-    'Rollstuhlgerechte Tisch- und Platzanordnung',
-    'Barrierefreier Zugang',
-    'Partär',
-    'Inklusive Beschilderung',
-  ];
+  @override
+  void initState() {
+    super.initState();
+
+    // 1. Grunddaten aus Mock-Rooms laden
+    final buildingSet = <String>{};
+    final equipmentSet = <String>{};
+
+    for (final room in mockRooms) {
+      if (room.building_name.isNotEmpty) buildingSet.add(room.building_name);
+      equipmentSet.addAll(room.equipment);
+    }
+
+    final accessSet = equipmentSet.where((e) {
+      final lower = e.toLowerCase();
+      return lower.contains('barrier') || lower.contains('barriere') || 
+             lower.contains('aufzug') || lower.contains('rollstuhl');
+    }).toSet();
+
+    _buildings = buildingSet.toList()..sort();
+    _equipment = equipmentSet.difference(accessSet).toList()..sort();
+    _accessibility = accessSet.toList()..sort();
+
+    // 2. Initialisierung mit Werten aus dem bestehenden Filter
+    final f = widget.initialFilter;
+    
+    _selectedBuilding = f?.building;
+    _selectedDate = f?.date ?? DateTime.now();
+    _selectedTime = f?.time ?? TimeOfDay.now();
+    
+    if (f?.equipment != null) _selectedEquipment.addAll(f!.equipment!);
+    if (f?.accessibility != null) _selectedAccessibility.addAll(f!.accessibility!);
+
+    // Controller initialisieren
+    _minSeatsController = TextEditingController(text: f?.minSeats?.toString() ?? '');
+    _maxSeatsController = TextEditingController(text: f?.maxSeats?.toString() ?? '');
+    _minSizeController = TextEditingController(text: f?.minSize?.toString() ?? '');
+    _maxSizeController = TextEditingController(text: f?.maxSize?.toString() ?? '');
+  }
+
+  @override
+  void dispose() {
+    _minSeatsController.dispose();
+    _maxSeatsController.dispose();
+    _minSizeController.dispose();
+    _maxSizeController.dispose();
+    super.dispose();
+  }
 
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
@@ -53,11 +86,7 @@ class _FilterDialogState extends State<FilterDialog> {
       firstDate: DateTime.now(),
       lastDate: DateTime(2025, 12, 31),
     );
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
+    if (picked != null) setState(() => _selectedDate = picked);
   }
 
   Future<void> _selectTime() async {
@@ -65,11 +94,7 @@ class _FilterDialogState extends State<FilterDialog> {
       context: context,
       initialTime: _selectedTime,
     );
-    if (picked != null && picked != _selectedTime) {
-      setState(() {
-        _selectedTime = picked;
-      });
-    }
+    if (picked != null) setState(() => _selectedTime = picked);
   }
 
   @override
@@ -88,37 +113,37 @@ class _FilterDialogState extends State<FilterDialog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Frei Am/Um',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => Navigator.pop(context),
+                  const Text('Filter anpassen', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedBuilding = null;
+                        _minSeatsController.clear();
+                        _maxSeatsController.clear();
+                        _minSizeController.clear();
+                        _maxSizeController.clear();
+                        _selectedEquipment.clear();
+                        _selectedAccessibility.clear();
+                        _selectedDate = DateTime.now();
+                        _selectedTime = TimeOfDay.now();
+                      });
+                    },
+                    child: const Text('Zurücksetzen', style: TextStyle(color: Colors.red)),
                   ),
                 ],
               ),
+              const Divider(),
 
-              const SizedBox(height: 16),
-
-              // Date and Time Picker
+              // Datum & Zeit
+              const Text('Zeitraum', style: TextStyle(fontWeight: FontWeight.w500)),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: _selectDate,
                       icon: const Icon(Icons.calendar_today, size: 16),
-                      label: Text(
-                        '${_selectedDate.day}.${_selectedDate.month}.${_selectedDate.year}',
-                        style: const TextStyle(fontSize: 13),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 10,
-                        ),
-                        side: const BorderSide(color: Color(0xFF333333)),
-                      ),
+                      label: Text('${_selectedDate.day}.${_selectedDate.month}.${_selectedDate.year}'),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -126,253 +151,138 @@ class _FilterDialogState extends State<FilterDialog> {
                     child: OutlinedButton.icon(
                       onPressed: _selectTime,
                       icon: const Icon(Icons.access_time, size: 16),
-                      label: Text(
-                        '${_selectedTime.hour}:${_selectedTime.minute.toString().padLeft(2, '0')}',
-                        style: const TextStyle(fontSize: 13),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 10,
-                        ),
-                        side: const BorderSide(color: Color(0xFF333333)),
-                      ),
+                      label: Text(_selectedTime.format(context)),
                     ),
                   ),
                 ],
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
 
-              // Building Dropdown
-              const Text(
-                'Gebäude',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              ),
+              // Gebäude Dropdown
+              const Text('Gebäude', style: TextStyle(fontWeight: FontWeight.w500)),
               const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
+              DropdownButtonFormField<String?>( // Typ auf String? geändert
                 value: _selectedBuilding,
-                hint: const Text('Gebäude Auswählen...'),
+                hint: const Text('Alle Gebäude'),
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Color(0xFF333333)),
-                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                items: _buildings.map((building_name) {
-                  return DropdownMenuItem(
-                    value: building_name, 
-                    child: Text(building_name, style: const TextStyle(fontSize: 14)),
-                  );
-                }).toList(),
-                onChanged: (value) {
+                // Hier fügen wir manuell die Option "Alle Gebäude" hinzu
+                items: [
+                  const DropdownMenuItem<String?>(
+                    value: null,
+                    child: Text('Alle Gebäude'),
+                  ),
+                  ..._buildings.map((b) => DropdownMenuItem<String?>(
+                        value: b,
+                        child: Text(b),
+                      )),
+                ],
+                onChanged: (val) {
                   setState(() {
-                    _selectedBuilding = value;
+                    _selectedBuilding = val;
                   });
                 },
               ),
 
               const SizedBox(height: 16),
 
-              // Size
-              const Text(
-                'Sitze',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              // Sitze & Größe
+              Row(
+                children: [
+                  Expanded(child: _buildTextField('Min. Sitze', _minSeatsController)),
+                  const SizedBox(width: 8),
+                  Expanded(child: _buildTextField('Max. Sitze', _maxSeatsController)),
+                ],
               ),
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Min./Max.',
-                        hintStyle: const TextStyle(fontSize: 13),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) => _minSize = value,
-                    ),
-                  ),
+                  Expanded(child: _buildTextField('Min. m²', _minSizeController)),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: '...',
-                        hintStyle: const TextStyle(fontSize: 13),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) => _maxSize = value,
-                    ),
-                  ),
+                  Expanded(child: _buildTextField('Max. m²', _maxSizeController)),
                 ],
               ),
 
               const SizedBox(height: 16),
 
-              // Size (Größe)
-              const Text(
-                'Größe',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Min./Max.',
-                        hintStyle: const TextStyle(fontSize: 13),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: '...',
-                        hintStyle: const TextStyle(fontSize: 13),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ],
+              // Ausstattung Chips
+              const Text('Ausstattung', style: TextStyle(fontWeight: FontWeight.w500)),
+              Wrap(
+                spacing: 6,
+                children: _equipment.map((e) => FilterChip(
+                  label: Text(e, style: const TextStyle(fontSize: 12)),
+                  selected: _selectedEquipment.contains(e),
+                  onSelected: (bool selected) {
+                    setState(() {
+                      selected ? _selectedEquipment.add(e) : _selectedEquipment.remove(e);
+                    });
+                  },
+                )).toList(),
               ),
 
               const SizedBox(height: 16),
 
-              // Equipment Dropdown
-              const Text(
-                'Ausstattung',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                value: _selectedEquipment,
-                hint: const Text('Ausstattung Auswählen'),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Color(0xFF333333)),
-                  ),
-                ),
-                items: _equipment.map((equip) {
-                  return DropdownMenuItem(
-                    value: equip,
-                    child: Text(equip, style: const TextStyle(fontSize: 14)),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedEquipment = value;
-                  });
-                },
+              // Barrierefreiheit Chips
+              const Text('Barrierefreiheit', style: TextStyle(fontWeight: FontWeight.w500)),
+              Wrap(
+                spacing: 6,
+                children: _accessibility.map((a) => FilterChip(
+                  label: Text(a, style: const TextStyle(fontSize: 12)),
+                  selected: _selectedAccessibility.contains(a),
+                  onSelected: (bool selected) {
+                    setState(() {
+                      selected ? _selectedAccessibility.add(a) : _selectedAccessibility.remove(a);
+                    });
+                  },
+                )).toList(),
               ),
 
               const SizedBox(height: 24),
 
-              // Barrierefreiheit Dropdown
-              const Text(
-                'Barrierefreiheit',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                value: _selectedAccessibility,
-                hint: const Text('Kriterien auswählen'),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Color(0xFF333333)),
-                  ),
-                ),
-                items: _accessibility.map((equip) {
-                  return DropdownMenuItem(
-                    value: equip,
-                    child: Text(equip, style: const TextStyle(fontSize: 14)),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedAccessibility = value;
-                  });
-                },
-              ),
-
-              const SizedBox(height: 24),
               // Apply Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF4A9DB0),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
                   onPressed: () {
                     final filter = RoomFilter(
                       building: _selectedBuilding,
-                      minSeats: int.tryParse(_minSize),
-                      maxSeats: int.tryParse(_maxSize),
-                      equipment: _selectedEquipment,
-                      accessibility: _selectedAccessibility,
+                      minSeats: int.tryParse(_minSeatsController.text),
+                      maxSeats: int.tryParse(_maxSeatsController.text),
+                      minSize: int.tryParse(_minSizeController.text),
+                      maxSize: int.tryParse(_maxSizeController.text),
+                      equipment: _selectedEquipment.isEmpty ? null : _selectedEquipment.toList(),
+                      accessibility: _selectedAccessibility.isEmpty ? null : _selectedAccessibility.toList(),
                       date: _selectedDate,
                       time: _selectedTime,
                     );
                     Navigator.pop(context, filter);
                   },
-
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF4A9DB0),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Filter Anwenden',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
+                  child: const Text('Filter anwenden'),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller) {
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       ),
     );
   }

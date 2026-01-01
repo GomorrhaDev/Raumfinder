@@ -4,8 +4,8 @@ class RoomFilter {
   final String? building;
   final int? minSeats;
   final int? maxSeats;
-  final String? equipment;
-  final String? accessibility;
+  final List<String>? equipment;
+  final List<String>? accessibility;
   final DateTime date;
   final TimeOfDay time;
   final int? minSize;
