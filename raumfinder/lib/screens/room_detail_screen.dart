@@ -88,18 +88,18 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFE4E4E4),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF5EB3C7),
+        backgroundColor: const Color(0xFF004B5A),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF2C5F6F)),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFFE4E4E4)),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Raumansicht',
           style: TextStyle(
-            color: Color(0xFF2C5F6F),
+            color: Color(0xFFE4E4E4),
             fontSize: 20,
             fontWeight: FontWeight.w500,
           ),
@@ -113,15 +113,15 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
-              color: const Color(0xFFE8F4F8),
+              color: const Color(0xFFCCDBDE),
               child: Column(
                 children: [
                   Text(
-                    'NAME: ${widget.room.name}',
+                    '${widget.room.name}',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF2C5F6F),
+                      color: Color(0xFF004B5A),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -129,7 +129,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                     'Gebäude ${widget.room.building_number}',
                     style: const TextStyle(
                       fontSize: 14,
-                      color: Color(0xFF5EB3C7),
+                      color: Color(0xFF656565),
                     ),
                   ),
                 ],

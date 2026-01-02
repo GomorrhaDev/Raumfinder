@@ -113,23 +113,23 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF5EB3C7),
+        backgroundColor: const Color(0xFF004B5A),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF2C5F6F)),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFFD4D4D4)),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Belegungsplan',
           style: TextStyle(
-            color: Color(0xFF2C5F6F),
+            color: Color(0xFFD4D4D4),
             fontSize: 20,
             fontWeight: FontWeight.w500,
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.calendar_month, color: Color(0xFF2C5F6F)),
+            icon: const Icon(Icons.calendar_month, color: Color(0xFFD4D4D4)),
             onPressed: _selectDate,
             tooltip: 'Datum wählen',
           ),
@@ -141,7 +141,7 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
-            color: const Color(0xFFE8F4F8),
+            color: const Color(0xFFCCDBDE),
             child: Column(
               children: [
                 Text(
@@ -149,7 +149,7 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF2C5F6F),
+                    color: Color(0xFF004B5A),
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -157,7 +157,7 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
                   'Gebäude ${widget.room.building_number} • Raum ${widget.room.roomNumber}',
                   style: const TextStyle(
                     fontSize: 14,
-                    color: Color(0xFF5EB3C7),
+                    color: Color(0xFF656565),
                   ),
                 ),
               ],

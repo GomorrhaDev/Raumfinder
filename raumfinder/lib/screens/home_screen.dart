@@ -16,16 +16,21 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
     );
   }
 
+
   void _showHistory() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Verlauf wird angezeigt')),
+      const SnackBar(
+        content: Text('Verlauf wird angezeigt',
+                  style: TextStyle(color: Color(0xFFE4E4E4))),
+        backgroundColor: Color(0xFF004b5a),
+      )
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFE4E4E4),
       body: SafeArea(
         child: Column(
           children: [
@@ -37,8 +42,8 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    const Color(0xFF5EB3C7),
-                    const Color(0xFF4A9DB0),
+                    const Color(0xE0004b5a),
+                    const Color(0xFF004b5a),
                   ],
                 ),
                 boxShadow: [
@@ -54,7 +59,7 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
                 'UzL Raumfinder',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFF2C5F6F),
+                  color: Color(0xFFE4E4E4),
                   fontSize: 28,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.5,
@@ -77,7 +82,7 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
                           'Finde deinen Raum, schnell\nund einfach',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xFFB0B0B0),
+                            color: Color(0xFF656565),
                             fontSize: 16,
                             height: 1.6,
                           ),
@@ -94,7 +99,7 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(30),
                               border: Border.all(
-                                color: const Color(0xFF333333),
+                                color: const Color(0xFF656565),
                                 width: 2,
                               ),
                               boxShadow: [
@@ -122,7 +127,7 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
                                 ),
                                 const Icon(
                                   Icons.search,
-                                  color: Color(0xFF333333),
+                                  color: Color(0xFF656565),
                                   size: 24,
                                 ),
                               ],
@@ -139,7 +144,7 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
                             'Raumnamen bzw. Veranstaltung eingeben oder\n auf die Lupe klicken, um zu filtern',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color(0xFF666666),
+                              color: Color(0xFF656565),
                               fontSize: 12,
                               height: 1.5,
                             ),

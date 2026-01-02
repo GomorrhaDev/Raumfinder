@@ -134,18 +134,18 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFE4E4E4),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF5EB3C7),
+        backgroundColor: const Color(0xE0004b5a),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF2C5F6F)),
+          icon: const Icon(Icons.arrow_back, color: Color(0xffe4e4e4)),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Suche',
           style: TextStyle(
-            color: Color(0xFF2C5F6F),
+            color: Color(0xffe4e4e4),
             fontSize: 20,
             fontWeight: FontWeight.w500,
           ),
@@ -164,8 +164,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     hintText: 'Raum, Gebäude, Veranstaltung, Dozent …',
                     filled: true,
                     fillColor: Colors.white,
-                    border: OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(color: Color(0xFF004B5A), width: 2.0)
                     ),
                     suffixIcon: const Icon(Icons.search),
                   ),
@@ -173,8 +174,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 const SizedBox(height: 12),
                 OutlinedButton.icon(
                   onPressed: _showFilterDialog,
-                  icon: const Icon(Icons.filter_list),
-                  label: const Text('Filter öffnen'),
+                  icon: const Icon(Icons.filter_list, color: Color(0xff004b5a),),
+                  label: const Text('Filter öffnen', style: TextStyle(color: Color(0xFF004B5A)),),
                 ),
               ],
             ),
@@ -190,14 +191,14 @@ class _SearchScreenState extends State<SearchScreen> {
                         Icon(
                           Icons.search_off,
                           size: 64,
-                          color: Colors.grey[400],
+                          color: Color(0xFF656565),
                         ),
                         const SizedBox(height: 16),
                         Text(
                           'Keine Räume gefunden',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.grey[600],
+                            color: Color(0xFF656565),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -206,7 +207,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           'Versuche einen anderen Suchbegriff',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.grey[500],
+                            color: Color(0xFF9D9D9D),
                           ),
                         ),
                       ],

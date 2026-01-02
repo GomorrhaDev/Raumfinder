@@ -101,6 +101,7 @@ class _FilterDialogState extends State<FilterDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      backgroundColor: Color(0xFFE4E4E4),
       child: Container(
         padding: const EdgeInsets.all(20),
         constraints: const BoxConstraints(maxWidth: 400),
@@ -142,16 +143,22 @@ class _FilterDialogState extends State<FilterDialog> {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: _selectDate,
-                      icon: const Icon(Icons.calendar_today, size: 16),
-                      label: Text('${_selectedDate.day}.${_selectedDate.month}.${_selectedDate.year}'),
+                      icon: const Icon(Icons.calendar_today, size: 16, color: Color(0xFF004b5a)),
+                      label: Text(
+                        '${_selectedDate.day}.${_selectedDate.month}.${_selectedDate.year}',
+                        style: TextStyle(color: Color(0xFF004b5a))
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: _selectTime,
-                      icon: const Icon(Icons.access_time, size: 16),
-                      label: Text(_selectedTime.format(context)),
+                      icon: const Icon(Icons.access_time, size: 16, color: Color(0xFF004b5a)),
+                      label: Text(
+                        _selectedTime.format(context),
+                        style: TextStyle(color: Color(0xFF004b5a))
+                      ),
                     ),
                   ),
                 ],
@@ -164,11 +171,19 @@ class _FilterDialogState extends State<FilterDialog> {
               const SizedBox(height: 8),
               DropdownButtonFormField<String?>( // Typ auf String? geändert
                 value: _selectedBuilding,
+                dropdownColor: Color(0xFFE4E4E4),
                 hint: const Text('Alle Gebäude'),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: Color(0xFF004B5A), width: 2.0)
+                    ),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Color(0xFF004B5A), width: 2.0)
+                  ),
                 ),
+
+
                 // Hier fügen wir manuell die Option "Alle Gebäude" hinzu
                 items: [
                   const DropdownMenuItem<String?>(
@@ -213,7 +228,9 @@ class _FilterDialogState extends State<FilterDialog> {
               Wrap(
                 spacing: 6,
                 children: _equipment.map((e) => FilterChip(
-                  label: Text(e, style: const TextStyle(fontSize: 12)),
+                  label: Text(e, style: TextStyle(color: _selectedEquipment.contains(e) ? const Color(0xFFE4E4E4) : const Color(0xFF656565), fontSize: 12)),
+                  backgroundColor: Color(0xFFD0D0D0),
+                  selectedColor: Color(0xFF004B5A),
                   selected: _selectedEquipment.contains(e),
                   onSelected: (bool selected) {
                     setState(() {
@@ -230,7 +247,9 @@ class _FilterDialogState extends State<FilterDialog> {
               Wrap(
                 spacing: 6,
                 children: _accessibility.map((a) => FilterChip(
-                  label: Text(a, style: const TextStyle(fontSize: 12)),
+                  label: Text(a, style: TextStyle(color: _selectedAccessibility.contains(a) ? const Color(0xFFE4E4E4) : const Color(0xFF656565), fontSize: 12)),
+                  backgroundColor: Color(0xFFD0D0D0),
+                  selectedColor: Color(0xFF004B5A),
                   selected: _selectedAccessibility.contains(a),
                   onSelected: (bool selected) {
                     setState(() {
@@ -247,8 +266,8 @@ class _FilterDialogState extends State<FilterDialog> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF4A9DB0),
-                    foregroundColor: Colors.white,
+                    backgroundColor: const Color(0xFF004B5A),
+                    foregroundColor: Color(0xFFE4E4E4),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
                   onPressed: () {
@@ -282,7 +301,9 @@ class _FilterDialogState extends State<FilterDialog> {
       decoration: InputDecoration(
         labelText: label,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: Color(0xFF004B5A), width: 2.0)
+        ),        contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       ),
     );
   }
