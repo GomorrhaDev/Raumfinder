@@ -10,7 +10,7 @@ final List<Room> mockRooms = [
     capacity: 576,
     roomNumber: "	065 000 00 005.00",
     size: 577,
-    equipment: ["feste Bestuhlung", "Sitzreihen ansteigend", "Tische", "klimatisiert", "Tafel", "Verdunkelungsmöglichkeit", "Projektionswand", "Beamer", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "Mikrofon", "barrierefrei"],
+    equipment: ["feste Bestuhlung", "Sitzreihen ansteigend", "Tische", "klimatisiert", "Tafel", "Verdunkelungsmöglichkeit", "Projektionswand", "Beamer", "Internetanschluss", "PC", "WLAN", "Uhr", "Lautsprecher", "Mikrofon", "barrierefrei"],
     coordinates: Coordinates(latitude: 53.83424510447914, longitude: 10.700101839618801),
     bookings: [
       //Ferien
@@ -66,7 +66,7 @@ final List<Room> mockRooms = [
     capacity: 140,
     roomNumber: "070.000.00.008.00",
     size: 142,
-    equipment: ["feste Bestuhlung", "Sitzreihen ansteigend", "Tafel", "Verdunkelungsmöglichkeit", "Beamer", "Internetanschluß", "PC", "Visualizer", "barrierefrei"],
+    equipment: ["feste Bestuhlung", "Sitzreihen ansteigend", "Tafel", "Verdunkelungsmöglichkeit", "Beamer", "Internetanschluss", "PC", "Visualizer", "barrierefrei"],
     coordinates: Coordinates(latitude: 53.83786642290044, longitude: 10.70848161620306),
     bookings: [
       // Montag, 05.01.2026
@@ -106,7 +106,7 @@ final List<Room> mockRooms = [
     capacity: 318,
     coordinates: Coordinates(latitude: 53.835057377669294, longitude: 10.706319640464047),
     size: 360,
-    equipment: ["feste Bestuhlung", "Sitzreihen ansteigend", "Tafel", "Verdunkelungsmöglichkeit", "Beamer", "Internetanschluß", "PC", "Visualizer", "WLAN", "Lautsprecher", "Mikrofon", "barrierefrei"],
+    equipment: ["feste Bestuhlung", "Sitzreihen ansteigend", "Tafel", "Verdunkelungsmöglichkeit", "Beamer", "Internetanschluss", "PC", "Visualizer", "WLAN", "Lautsprecher", "Mikrofon", "barrierefrei"],
     roomNumber: "040.222.01.015.00",
     bookings: [
       //Ferien
@@ -164,7 +164,7 @@ final List<Room> mockRooms = [
     building_name: "Container 3",
     building_number: "58.3",
     roomNumber: "058.300.00.001.00",
-    equipment: ["lose Bestuhlung", "Tische", "Tafel", "Beamer", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
+    equipment: ["lose Bestuhlung", "Tische", "Tafel", "Beamer", "Internetanschluss", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
     capacity: 30,
     size: 56,
     bookings: [
@@ -217,7 +217,7 @@ final List<Room> mockRooms = [
     building_name: "Container 3",
     building_number: "58.3",
     roomNumber: "058.300.00.006.00",
-    equipment: ["lose Bestuhlung", "Tische", "Tafel", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
+    equipment: ["lose Bestuhlung", "Tische", "Tafel", "Internetanschluss", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
     capacity: 42,
     size: 69,
     bookings: [
@@ -309,7 +309,7 @@ final List<Room> mockRooms = [
     building_name: "Container 4",
     building_number: "58.4",
     roomNumber: "058.400.00.001.00",
-    equipment: ["lose Bestuhlung", "Tafel", "Verdunkelungsmöglichkeit", "Beamer", "Internetanschluß", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
+    equipment: ["lose Bestuhlung", "Tafel", "Verdunkelungsmöglichkeit", "Beamer", "Internetanschluss", "PC", "WLAN", "Uhr", "Lautsprecher", "barrierefrei"],
     capacity: 64,
     size: 69,
     bookings: [
