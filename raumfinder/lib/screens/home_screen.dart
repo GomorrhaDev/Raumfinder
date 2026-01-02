@@ -136,7 +136,7 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
                         Container(
                           constraints: const BoxConstraints(maxWidth: 380),
                           child: const Text(
-                            'Raumnamen Oder Veranstaltung Eingeben, Oder\nEinfach Auf Die Lupe Klicken Um Zu Filtern',
+                            'Raumnamen oder Veranstaltung eingeben, eder\n auf die Lupe klicken, um zu filtern',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xFF666666),
