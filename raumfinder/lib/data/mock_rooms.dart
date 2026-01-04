@@ -1489,7 +1489,7 @@ final List<Room> mockRooms = [
   Room(
     // V1
     name: "V 1 - Hörsaal V 1",
-    coordinates: Coordinates(latitude: 53.50022, longitude: 10.42048),
+    coordinates: Coordinates(latitude: 53.8339456, longitude: 10.7013383),
     building_name: "Vorklinikum",
     building_number: "61c",
     roomNumber: "	061.400.10.103.00",
