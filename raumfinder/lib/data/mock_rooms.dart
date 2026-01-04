@@ -1486,4 +1486,211 @@ final List<Room> mockRooms = [
       ),
     ],
   ),
+  Room(
+    // V1
+    name: "V 1 - Hörsaal V 1",
+    coordinates: Coordinates(latitude: 53.50022, longitude: 10.42048),
+    building_name: "Vorklinikum",
+    building_number: "61c",
+    roomNumber: "	061.400.10.103.00",
+    equipment: [
+      "feste Bestuhlung",
+      "Sitzreihen ansteigend",
+      "Tisch",
+      "Tafel",
+      "Verdunkelungsmöglichkeit",
+      "Beamer",
+      "Internetanschluss",
+      "PC",
+      "Visualizer",
+    ],
+    capacity: 198,
+    size: 250,
+    bookings: [
+      //Ferien
+      // Montag, 05.01.2026
+      Occupation(
+        date: DateTime(2026, 1, 5, 08, 00),
+        duration: Duration(minutes: 120),
+        eventName: "Anatomie 1",
+        instructor: "Lange",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 5, 10, 00),
+        duration: Duration(minutes: 60),
+        eventName: "BCH I Vorl MLS-MEW",
+        instructor: "Krey",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 5, 11, 15),
+        duration: Duration(minutes: 45),
+        eventName: "Physiologie I",
+        instructor: "Kusche",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 5, 12, 15),
+        duration: Duration(minutes: 90),
+        eventName: "SWEng V",
+        instructor: "Wolter",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 5, 14, 00),
+        duration: Duration(minutes: 90),
+        eventName: "AC Ü",
+        instructor: "Weimar",
+      ),
+
+      // Dienstag, 06.01.2026
+      Occupation(
+        date: DateTime(2026, 1, 6, 08, 00),
+        duration: Duration(hours: 2),
+        eventName: "Anatomie 1",
+        instructor: "Lange",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 6, 10, 00),
+        duration: Duration(hours: 1),
+        eventName: "BCH I Vorl MLS-MEW",
+        instructor: "Krey",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 6, 11, 15),
+        duration: Duration(minutes: 45),
+        eventName: "Physiologie I",
+        instructor: "Kusche",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 6, 12, 00),
+        duration: Duration(hours: 2),
+        eventName: "KlinStud",
+        instructor: "König",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 6, 14, 00),
+        duration: Duration(hours: 1),
+        eventName: "GW2300",
+        instructor: "N.N.",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 6, 15, 00),
+        duration: Duration(minutes: 90),
+        eventName: "Klinische Medizin I (MZ4400)",
+        instructor: "Keck",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 6, 17, 15),
+        duration: Duration(minutes: 105),
+        eventName: "Kolloquium Molekulare Zellbiologie",
+        instructor: "Hartmann",
+      ),
+
+      // Mittwoch, 07.01.2026
+      Occupation(
+        date: DateTime(2026, 1, 7, 08, 00),
+        duration: Duration(hours: 1),
+        eventName: "Anatomie 1",
+        instructor: "Lange",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 7, 09, 00),
+        duration: Duration(hours: 1),
+        eventName: "Berufsfelderkundung",
+        instructor: "Lange",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 7, 10, 00),
+        duration: Duration(hours: 1),
+        eventName: "Medizinische Soziologie",
+        instructor: "Götz",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 7, 11, 15),
+        duration: Duration(minutes: 45),
+        eventName: "Physiologie I",
+        instructor: "Kusche",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 7, 12, 00),
+        duration: Duration(hours: 4),
+        eventName: "Schulung Technischer Betrieb",
+        instructor: "Zemke",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 7, 16, 00),
+        duration: Duration(hours: 2),
+        eventName: "Notfallmedizin",
+        instructor: "Maurer",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 7, 16, 00),
+        duration: Duration(hours: 2),
+        eventName: "Notfallmedizin",
+        instructor: "Ochsen",
+      ),
+
+      // Donnerstag, 08.01.2026
+      Occupation(
+        date: DateTime(2026, 1, 8, 08, 00),
+        duration: Duration(minutes: 120),
+        eventName: "MedizQM V",
+        instructor: "Maurer",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 8, 10, 00),
+        duration: Duration(hours: 1),
+        eventName: "BCH I Vorl MLS-MEW",
+        instructor: "Krey",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 8, 11, 15),
+        duration: Duration(minutes: 45),
+        eventName: "Physiologie I",
+        instructor: "Kusche",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 8, 12, 15),
+        duration: Duration(minutes: 90),
+        eventName: "Anatomie",
+        instructor: "Kalies",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 8, 14, 00),
+        duration: Duration(minutes: 90),
+        eventName: "Signal VL",
+        instructor: "Droigk",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 8, 16, 00),
+        duration: Duration(minutes: 210),
+        eventName: "KnowlRepCSR",
+        instructor: "Wolter",
+      ),
+
+      // Freitag, 09.01.2026
+      Occupation(
+        date: DateTime(2026, 1, 9, 08, 00),
+        duration: Duration(minutes: 120),
+        eventName: "Vorlesung Medizinische Psychologie (MedPsy)",
+        instructor: "Jessen",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 9, 11, 15),
+        duration: Duration(minutes: 45),
+        eventName: "Physiologie I",
+        instructor: "Kusche",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 9, 12, 00),
+        duration: Duration(hours: 2),
+        eventName: "TGI2 V",
+        instructor: "Ehlers",
+      ),
+      Occupation(
+        date: DateTime(2026, 1, 9, 14, 00),
+        duration: Duration(hours: 2),
+        eventName: "TGI2 Ü theor",
+        instructor: "Ehlers",
+      ),
+    ],
+  ),
 ];
