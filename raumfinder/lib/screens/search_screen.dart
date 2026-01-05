@@ -1,0 +1,322 @@
+import 'package:flutter/material.dart';
+import 'package:raumfinder/widgets/filter_dialog.dart';
+import 'package:raumfinder/data/room.dart';
+import 'package:raumfinder/data/mock_rooms.dart';
+import 'package:raumfinder/screens/room_detail_screen.dart';
+import 'package:raumfinder/data/room_filter.dart';
+
+class SearchScreen extends StatefulWidget {
+  final Map<DateTime, List<Room>> searchHistory;
+  const SearchScreen({
+    super.key,
+    required this.searchHistory,
+  });
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  RoomFilter? _activeFilter;
+  final TextEditingController _searchController = TextEditingController();
+
+  late List<Room> _rooms;
+  late List<Room> _filteredRooms;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _rooms = mockRooms;
+    _filteredRooms = _rooms;
+
+    _searchController.addListener(_filterRooms);
+  }
+
+  void _addToHistory(Room room) {
+    /*final now = DateTime.now();
+    final date = DateTime(now.year, now.month, now.day);
+    if (!widget.searchHistory.containsKey(date)){
+      widget.searchHistory[date] = [];
+    }
+    if (!widget.searchHistory[date]!.contains(room)){
+      widget.searchHistory[date]!.add(room);
+    }*/
+    final now = DateTime.now();
+    final date = DateTime(now.year, now.month, now.day);
+    // Tagesliste initialisieren, falls noch nicht vorhanden
+    widget.searchHistory.putIfAbsent(date, () => []);
+    final rooms = widget.searchHistory[date]!;
+    // Raum entfernen, falls schon vorhanden
+    rooms.removeWhere((r) => r.name == room.name); // oder r.id, falls ID vorhanden
+    // Raum an die Spitze der Liste setzen
+    rooms.insert(0, room);
+  }
+
+  void _filterRooms() {
+    final query = _searchController.text.toLowerCase();
+
+    setState(() {
+      _filteredRooms = _rooms.where((room) {
+        // 1. Suchtext-Filter (Name, Gebäude, Dozent, etc.)
+        final matchesSearch = query.isEmpty ||
+            room.name.toLowerCase().contains(query) ||
+            room.roomNumber.toLowerCase().contains(query) ||
+            room.building_number.toLowerCase().contains(query) ||
+            room.building_name.toLowerCase().contains(query) ||
+            room.bookings.any((b) =>
+                b.eventName.toLowerCase().contains(query) ||
+                b.instructor.toLowerCase().contains(query));
+
+        if (!matchesSearch) return false;
+
+        // 2. Aktive Filter anwenden
+        if (_activeFilter != null) {
+          final f = _activeFilter!;
+
+          // Gebäude
+          if (f.building != null && room.building_name != f.building) {
+            return false;
+          }
+
+          // Sitze
+          if (f.minSeats != null && room.capacity < f.minSeats!) return false;
+          if (f.maxSeats != null && room.capacity > f.maxSeats!) return false;
+
+          // Größe (m²)
+          if (f.minSize != null && room.size < f.minSize!) return false;
+          if (f.maxSize != null && room.size > f.maxSize!) return false;
+
+          // Ausstattung (Prüfen, ob ALLE gewählten Items vorhanden sind)
+          if (f.equipment != null && f.equipment!.isNotEmpty) {
+            if (!f.equipment!.every((item) => room.equipment.contains(item))) {
+              return false;
+            }
+          }
+
+          // Barrierefreiheit (Ebenfalls gegen room.equipment prüfen)
+          if (f.accessibility != null && f.accessibility!.isNotEmpty) {
+            if (!f.accessibility!.every((item) => room.equipment.contains(item))) {
+              return false;
+            }
+          }
+        }
+
+        return true;
+      }).toList();
+    });
+  }
+
+  void _showFilterDialog() async {
+    final result = await showDialog<RoomFilter>(
+      context: context,
+      builder: (context) => FilterDialog(initialFilter: _activeFilter),
+    );
+
+    if (result != null) {
+      setState(() {
+        _activeFilter = result;
+        _filterRooms();
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Filter angewendet')),
+      );
+    }
+  }
+
+
+  String _getMatchInfo(Room room, String query) {
+    if (query.isEmpty) return '';
+    
+    final lowerQuery = query.toLowerCase();
+    
+    // Check für Veranstaltung
+    final matchingEvent = room.bookings.firstWhere(
+      (booking) => booking.eventName.toLowerCase().contains(lowerQuery),
+      orElse: () => room.bookings.firstWhere(
+        (booking) => booking.instructor.toLowerCase().contains(lowerQuery),
+        orElse: () => room.bookings.first,
+      ),
+    );
+    
+    if (room.bookings.any((b) => 
+        b.eventName.toLowerCase().contains(lowerQuery) ||
+        b.instructor.toLowerCase().contains(lowerQuery))) {
+      return matchingEvent.eventName;
+    }
+    
+    return '';
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xFFE4E4E4),
+      appBar: AppBar(
+        backgroundColor: const Color(0xE0004b5a),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xffe4e4e4)),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Suche',
+          style: TextStyle(
+            color: Color(0xffe4e4e4),
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          // Search + Filter
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Raum, Gebäude, Veranstaltung, Dozent …',
+                    filled: true,
+                    fillColor: Colors.white,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(color: Color(0xFF004B5A), width: 2.0)
+                    ),
+                    suffixIcon: const Icon(Icons.search),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  onPressed: _showFilterDialog,
+                  icon: const Icon(Icons.filter_list, color: Color(0xff004b5a),),
+                  label: const Text('Filter öffnen', style: TextStyle(color: Color(0xFF004B5A)),),
+                ),
+              ],
+            ),
+          ),
+
+          // Room List
+          Expanded(
+            child: _filteredRooms.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.search_off,
+                          size: 64,
+                          color: Color(0xFF656565),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Keine Räume gefunden',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF656565),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Versuche einen anderen Suchbegriff',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF9D9D9D),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: _filteredRooms.length,
+                    itemBuilder: (context, index) {
+                      final room = _filteredRooms[index];
+                      final matchInfo = _getMatchInfo(room, _searchController.text);
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        decoration: BoxDecoration(
+                          color: room.isCurrentlyFree
+                              ? Colors.green[100]
+                              : Colors.red[100],
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(
+                            color: room.isCurrentlyFree ? Colors.green : Colors.red,
+                            width: 1.5,
+                          ),
+                        ),
+                        child: ListTile(
+                          leading: Icon(
+                            room.isCurrentlyFree
+                                ? Icons.check_circle
+                                : Icons.cancel,
+                            color: room.isCurrentlyFree ? Colors.green : Colors.red,
+                          ),
+                          title: Text(
+                            room.name,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          subtitle: matchInfo.isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        Icons.event,
+                                        size: 14,
+                                        color: Color(0xFF5EB3C7),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Flexible(
+                                        child: Text(
+                                          matchInfo,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFF2C5F6F),
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : null,
+                          onTap: () {
+                            _addToHistory(room);
+                            // Navigation zur Raumdetailseite
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    RoomDetailScreen(room: room),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+}
