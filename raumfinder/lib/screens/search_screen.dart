@@ -6,7 +6,11 @@ import 'package:raumfinder/screens/room_detail_screen.dart';
 import 'package:raumfinder/data/room_filter.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final Map<DateTime, List<Room>> searchHistory;
+  const SearchScreen({
+    super.key,
+    required this.searchHistory,
+  });
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -27,6 +31,26 @@ class _SearchScreenState extends State<SearchScreen> {
     _filteredRooms = _rooms;
 
     _searchController.addListener(_filterRooms);
+  }
+
+  void _addToHistory(Room room) {
+    /*final now = DateTime.now();
+    final date = DateTime(now.year, now.month, now.day);
+    if (!widget.searchHistory.containsKey(date)){
+      widget.searchHistory[date] = [];
+    }
+    if (!widget.searchHistory[date]!.contains(room)){
+      widget.searchHistory[date]!.add(room);
+    }*/
+    final now = DateTime.now();
+    final date = DateTime(now.year, now.month, now.day);
+    // Tagesliste initialisieren, falls noch nicht vorhanden
+    widget.searchHistory.putIfAbsent(date, () => []);
+    final rooms = widget.searchHistory[date]!;
+    // Raum entfernen, falls schon vorhanden
+    rooms.removeWhere((r) => r.name == room.name); // oder r.id, falls ID vorhanden
+    // Raum an die Spitze der Liste setzen
+    rooms.insert(0, room);
   }
 
   void _filterRooms() {
@@ -276,6 +300,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 )
                               : null,
                           onTap: () {
+                            _addToHistory(room);
                             // Navigation zur Raumdetailseite
                             Navigator.push(
                               context,

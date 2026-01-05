@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:raumfinder/screens/search_screen.dart';
+import 'package:raumfinder/screens/search_history_screen.dart';
+import 'package:raumfinder/data/room.dart';
+import 'package:raumfinder/data/search_history_storage.dart';
 
 class RaumfinderHomePage extends StatefulWidget {
   const RaumfinderHomePage({super.key});
@@ -9,21 +12,37 @@ class RaumfinderHomePage extends StatefulWidget {
 }
 
 class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
+  final Map<DateTime, List<Room>> _searchHistory = {};
+  
+  @override
+  void initState(){
+    super.initState();
+    _loadHistory();
+  }
+
+  Future<void> _loadHistory() async{
+    final loaded = await SearchHistoryStorage.load();
+
+    setState((){
+      _searchHistory.clear();
+      _searchHistory.addAll(loaded);
+    });
+  }
+
   void _navigateToSearch() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const SearchScreen()),
+      MaterialPageRoute(builder: (context) => SearchScreen(searchHistory: _searchHistory),
+      ),
     );
   }
 
-
   void _showHistory() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Verlauf wird angezeigt',
-                  style: TextStyle(color: Color(0xFFE4E4E4))),
-        backgroundColor: Color(0xFF004b5a),
-      )
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchHistoryScreen(searchHistory: _searchHistory),
+      ),
     );
   }
 
