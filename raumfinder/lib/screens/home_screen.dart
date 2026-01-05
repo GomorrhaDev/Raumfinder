@@ -102,7 +102,7 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0xFF656565),
-                            fontSize: 16,
+                            fontSize: 18,
                             height: 1.6,
                           ),
                         ),
@@ -140,7 +140,7 @@ class _RaumfinderHomePageState extends State<RaumfinderHomePage> {
                                     '...',
                                     style: TextStyle(
                                       color: Colors.grey[400],
-                                      fontSize: 16,
+                                      fontSize: 18,
                                     ),
                                   ),
                                 ),
