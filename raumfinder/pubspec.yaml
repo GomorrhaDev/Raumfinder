@@ -85,7 +85,7 @@ flutter:
   fonts:
     - family: myriad_pro
       fonts:
-        - asset: fonts/MYRIADPRO-REGULAR.OTF
+        - asset: fonts/myriad_pro/MYRIADPRO-REGULAR.OTF
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
