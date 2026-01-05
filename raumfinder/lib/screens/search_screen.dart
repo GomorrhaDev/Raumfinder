@@ -62,8 +62,8 @@ class _SearchScreenState extends State<SearchScreen> {
         final matchesSearch = query.isEmpty ||
             room.name.toLowerCase().contains(query) ||
             room.roomNumber.toLowerCase().contains(query) ||
-            room.building_number.toLowerCase().contains(query) ||
-            room.building_name.toLowerCase().contains(query) ||
+            room.buildingNumber.toLowerCase().contains(query) ||
+            room.buildingName.toLowerCase().contains(query) ||
             room.bookings.any((b) =>
                 b.eventName.toLowerCase().contains(query) ||
                 b.instructor.toLowerCase().contains(query));
@@ -75,7 +75,7 @@ class _SearchScreenState extends State<SearchScreen> {
           final f = _activeFilter!;
 
           // Gebäude
-          if (f.building != null && room.building_name != f.building) {
+          if (f.building != null && room.buildingName != f.building) {
             return false;
           }
 
@@ -112,6 +112,8 @@ class _SearchScreenState extends State<SearchScreen> {
       context: context,
       builder: (context) => FilterDialog(initialFilter: _activeFilter),
     );
+
+    if (!mounted) return;
 
     if (result != null) {
       setState(() {

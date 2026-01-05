@@ -6,8 +6,8 @@ final List<Room> mockRooms = [
   Room(
     // AM 1 - Audimax
     name: "AM 1 - Audimax",
-    building_name: "Audimax",
-    building_number: "65",
+    buildingName: "Audimax",
+    buildingNumber: "65",
     capacity: 576,
     roomNumber: "	065 000 00 005.00",
     size: 577,
@@ -353,8 +353,8 @@ final List<Room> mockRooms = [
   Room(
     // H 1 - Hörsaal 1 Turmgebäude
     name: "H 1 - Hörsaal 1 Turmgebäude",
-    building_name: "Turmgebäude",
-    building_number: "70",
+    buildingName: "Turmgebäude",
+    buildingNumber: "70",
     capacity: 140,
     roomNumber: "070.000.00.008.00",
     size: 142,
@@ -624,8 +624,8 @@ final List<Room> mockRooms = [
   Room(
     // Hörsaal Z 1/2
     name: "Z 1/2 - Hörsaal Z 1/2",
-    building_name: "Zentralklinikum",
-    building_number: "40",
+    buildingName: "Zentralklinikum",
+    buildingNumber: "40",
     capacity: 318,
     coordinates: Coordinates(
       latitude: 53.835057377669294,
@@ -1071,8 +1071,8 @@ final List<Room> mockRooms = [
       latitude: 53.83636577406219,
       longitude: 10.702687773202845,
     ),
-    building_name: "Container 3",
-    building_number: "58.3",
+    buildingName: "Container 3",
+    buildingNumber: "58.3",
     roomNumber: "058.300.00.001.00",
     equipment: [
       "lose Bestuhlung",
@@ -1403,8 +1403,8 @@ final List<Room> mockRooms = [
       latitude: 53.83636577406219,
       longitude: 10.702687773202845,
     ),
-    building_name: "Container 3",
-    building_number: "58.3",
+    buildingName: "Container 3",
+    buildingNumber: "58.3",
     roomNumber: "058.300.00.006.00",
     equipment: [
       "lose Bestuhlung",
@@ -1728,8 +1728,8 @@ final List<Room> mockRooms = [
     // T 1 - Hörsaal T 1
     name: "T 1 - Hörsaal T 1",
     coordinates: Coordinates(latitude: 53.838025, longitude: 10.704336),
-    building_name: "Transitorium",
-    building_number: "53",
+    buildingName: "Transitorium",
+    buildingNumber: "53",
     roomNumber: "053.000.00.902.00",
     equipment: [
       "feste Bestuhlung",
@@ -1992,8 +1992,8 @@ final List<Room> mockRooms = [
     // C4-S01
     name: "C4-S01",
     coordinates: Coordinates(latitude: 53.835577, longitude: 10.700727),
-    building_name: "Container 4",
-    building_number: "58.4",
+    buildingName: "Container 4",
+    buildingNumber: "58.4",
     roomNumber: "058.400.00.001.00",
     equipment: [
       "lose Bestuhlung",
@@ -2292,8 +2292,8 @@ final List<Room> mockRooms = [
     // C4-S02
     name: "C4-S02",
     coordinates: Coordinates(latitude: 53.835577, longitude: 10.700727),
-    building_name: "Container 4",
-    building_number: "58.4",
+    buildingName: "Container 4",
+    buildingNumber: "58.4",
     roomNumber: "058.400.00.003.00",
     equipment: [
       "lose Bestuhlung",
@@ -2571,8 +2571,8 @@ final List<Room> mockRooms = [
     // V1
     name: "V 1 - Hörsaal V 1",
     coordinates: Coordinates(latitude: 53.8339456, longitude: 10.7013383),
-    building_name: "Vorklinikum",
-    building_number: "61c",
+    buildingName: "Vorklinikum",
+    buildingNumber: "61c",
     roomNumber: "	061.400.10.103.00",
     equipment: [
       "feste Bestuhlung",

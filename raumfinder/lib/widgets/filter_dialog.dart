@@ -39,7 +39,7 @@ class _FilterDialogState extends State<FilterDialog> {
     final equipmentSet = <String>{};
 
     for (final room in mockRooms) {
-      if (room.building_name.isNotEmpty) buildingSet.add(room.building_name);
+      if (room.buildingName.isNotEmpty) buildingSet.add(room.buildingName);
       equipmentSet.addAll(room.equipment);
     }
 
@@ -170,7 +170,7 @@ class _FilterDialogState extends State<FilterDialog> {
               const Text('Gebäude', style: TextStyle(fontWeight: FontWeight.w500)),
               const SizedBox(height: 8),
               DropdownButtonFormField<String?>( // Typ auf String? geändert
-                value: _selectedBuilding,
+                initialValue: _selectedBuilding,
                 dropdownColor: Color(0xFFE4E4E4),
                 hint: const Text('Alle Gebäude'),
                 decoration: InputDecoration(

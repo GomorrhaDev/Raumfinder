@@ -53,7 +53,7 @@ class SearchHistoryScreen extends StatelessWidget {
                     return ListTile(
                       title: Text(room.name),
                       subtitle: Text(
-                        'Gebäude ${room.building_number} • Raum ${room.roomNumber}',
+                        'Gebäude ${room.buildingNumber} • Raum ${room.roomNumber}',
                       ),
                       leading: Icon(
                         room.isCurrentlyFree

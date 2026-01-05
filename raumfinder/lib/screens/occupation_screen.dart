@@ -144,7 +144,7 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Gebäude ${widget.room.building_number} • Raum ${widget.room.roomNumber}',
+                  'Gebäude ${widget.room.buildingNumber} • Raum ${widget.room.roomNumber}',
                   style: const TextStyle(
                     fontSize: 14,
                     color: Color(0xFF656565),
@@ -216,7 +216,8 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05)
+,
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
@@ -317,7 +318,8 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
                       side: BorderSide(
                         color: _isToday(_selectedDate)
                             ? const Color(0xFF5EB3C7)
-                            : const Color(0xFF2C5F6F).withOpacity(0.3),
+                            : const Color(0xFF2C5F6F).withValues(alpha: 0.3)
+,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 8),
                     ),
@@ -336,7 +338,8 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: const Color(0xFF2C5F6F),
                       side: BorderSide(
-                        color: const Color(0xFF2C5F6F).withOpacity(0.3),
+                        color: const Color(0xFF2C5F6F).withValues(alpha: 0.3)
+,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 8),
                     ),
@@ -391,7 +394,7 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
                         margin: const EdgeInsets.only(bottom: 12),
                         decoration: BoxDecoration(
                           color: isNow 
-                              ? const Color(0xFF5EB3C7).withOpacity(0.1)
+                              ? const Color(0xFF5EB3C7).withValues(alpha: 0.1)
                               : Colors.white,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
@@ -399,12 +402,14 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
                                 ? const Color(0xFF5EB3C7)
                                 : isPast 
                                     ? Colors.grey[300]!
-                                    : const Color(0xFF2C5F6F).withOpacity(0.3),
+                                    : const Color(0xFF2C5F6F).withValues(alpha: 0.3)
+,
                             width: isNow ? 2 : 1,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withValues(alpha: 0.05)
+,
                               blurRadius: 4,
                               offset: const Offset(0, 2),
                             ),

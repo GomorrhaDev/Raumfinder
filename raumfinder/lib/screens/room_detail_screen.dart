@@ -117,7 +117,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
               child: Column(
                 children: [
                   Text(
-                    '${widget.room.name}',
+                    widget.room.name,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -126,7 +126,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Gebäude ${widget.room.building_number}',
+                    'Gebäude ${widget.room.buildingNumber}',
                     style: const TextStyle(
                       fontSize: 14,
                       color: Color(0xFF656565),
@@ -144,7 +144,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
