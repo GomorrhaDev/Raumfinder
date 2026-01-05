@@ -15,7 +15,7 @@ class UzLRaumfinderApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.cyan,
-        fontFamily: 'Roboto',
+        fontFamily: 'myriad_pro',
       ),
       home: const RaumfinderHomePage(),
     );
