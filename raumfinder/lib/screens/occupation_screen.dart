@@ -36,11 +36,6 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
     }).toList()..sort((a, b) => a.date.compareTo(b.date));
   }
 
-  void _changeDate(int days) {
-    setState(() {
-      _selectedDate = _selectedDate.add(Duration(days: days));
-    });
-  }
 
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
@@ -74,14 +69,9 @@ class _OccupationPlanScreenState extends State<OccupationPlanScreen> {
     return DateFormat('HH:mm').format(time);
   }
 
-  String _formatDate(DateTime date) {
-    return DateFormat('dd.MM.yyyy').format(date);
-  }
-
   String _formatWeekday(DateTime date) {
-    // weekday gibt 1-7 zurück, wobei 1 = Montag, 7 = Sonntag
     const weekdays = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-    return weekdays[date.weekday - 1]; // -1 weil Array bei 0 startet
+    return weekdays[date.weekday - 1];
   }
 
   String _formatMonthYear(DateTime date) {

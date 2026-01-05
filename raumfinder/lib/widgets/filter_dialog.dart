@@ -82,9 +82,9 @@ class _FilterDialogState extends State<FilterDialog> {
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2025, 12, 31),
+      initialDate: DateUtils.dateOnly(_selectedDate),
+      firstDate: DateUtils.dateOnly(DateTime.now()),
+      lastDate: DateTime(2100, 12, 31),
     );
     if (picked != null) setState(() => _selectedDate = picked);
   }

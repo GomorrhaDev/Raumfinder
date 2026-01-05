@@ -27,7 +27,12 @@ class SearchHistoryScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Suchverlauf'),
+        title: const Text(
+          'Suchverlauf',
+          style: TextStyle(
+            color: Color(0xFFE4E4E4),
+          ),
+        ),
         backgroundColor: const Color(0xFF004B5A),
       ),
       body: dates.isEmpty
